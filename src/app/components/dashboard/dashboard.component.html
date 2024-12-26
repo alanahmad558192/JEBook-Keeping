@@ -1,1 +1,65 @@
-<p>dashboard works!</p>
+<div class="dashboard">
+  <section class="accounts-overview">
+    <div class="section-header">
+      <h2>Accounts Overview</h2>
+      <a routerLink="/accounts/new" class="btn-add">Add Account</a>
+    </div>
+
+    <div class="accounts-grid">
+      @for (account of accounts; track account.id) {
+      <div class="account-card">
+        <h3>{{ account.name }}</h3>
+        <p class="balance" [class.negative]="account.balance < 0">
+          {{ account.balance | currency }}
+        </p>
+        <p class="type">{{ account.type }}</p>
+        <div class="card-actions">
+          <a
+            [routerLink]="['/transactions']"
+            [queryParams]="{ accountId: account.id }"
+            target="_blank"
+            class="btn-view-transactions"
+          >
+            📊
+          </a>
+        </div>
+      </div>
+      } @empty {
+      <p>No accounts found. Create your first account!</p>
+      }
+    </div>
+  </section>
+
+  <section class="recent-transactions">
+    <div class="section-header">
+      <h2>Recent Transactions</h2>
+      <a routerLink="/transactions/new" class="btn-add">Add Transaction</a>
+    </div>
+
+    <div class="transactions-list">
+      @for (transaction of recentTransactions; track transaction.id) {
+      <div class="transaction-item">
+        <div class="transaction-info">
+          <span class="date">{{
+            transaction.date | date : 'shortDate'
+          }}</span>
+          <span class="account">{{
+            getAccountName(transaction.accountId)
+          }}</span>
+          <span class="description">{{ transaction.description }}</span>
+        </div>
+        <span
+          class="amount"
+          [class.expense]="transaction.type === 'expense'"
+          [class.income]="transaction.type === 'income'"
+        >
+          {{ transaction.type === 'expense' ? '-' : '+'
+          }}{{ transaction.amount | currency }}
+        </span>
+      </div>
+      } @empty {
+      <p>No transactions found. Add your first transaction!</p>
+      }
+    </div>
+  </section>
+</div>

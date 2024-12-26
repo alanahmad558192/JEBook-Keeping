@@ -1,1 +1,41 @@
-<p>account-list works!</p>
+<div class="account-list">
+  <div class="header">
+    <h2>Accounts</h2>
+    <a routerLink="/accounts/new" class="btn-add">Add Account</a>
+  </div>
+
+  <div class="accounts-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Balance</th>
+          <th>Created Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (account of accounts; track account.id) {
+          <tr>
+            <td>{{ account.name }}</td>
+            <td>{{ account.type }}</td>
+            <td [class.negative]="account.balance < 0">
+              {{ account.balance | currency }}
+            </td>
+            <td>{{ account.createdDate | date:'mediumDate' }}</td>
+            <td class="actions">
+              <a [routerLink]="['/accounts/edit', account.id]" class="btn-edit">Edit</a>
+              <!-- Add this new icon button -->
+              <a [routerLink]="['/transactions']" [queryParams]="{accountId: account.id}"
+                 target="_blank" class="btn-view-transactions">
+                📊
+              </a>
+              <button class="btn-delete" (click)="deleteAccount(account.id!)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

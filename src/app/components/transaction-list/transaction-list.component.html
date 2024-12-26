@@ -1,1 +1,46 @@
-<p>transaction-list works!</p>
+<div class="transaction-list">
+  <div class="header">
+    <h2>All Transactions</h2>
+    <a routerLink="/transactions/new" class="btn-add">Add Transaction</a>
+  </div>
+
+  <div class="transactions-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Account</th>
+          <th>Type</th>
+          <th>Category</th>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (transaction of transactions; track transaction.id) {
+          <tr>
+            <td>{{ transaction.date | date:'mediumDate' }}</td>
+            <td>{{ getAccountName(transaction.accountId) }}</td>
+            <td>{{ transaction.type }}</td>
+            <td>{{ transaction.category }}</td>
+            <td>{{ transaction.description }}</td>
+            <td [class.expense]="transaction.type === 'expense'"
+                [class.income]="transaction.type === 'income'">
+              {{ transaction.type === 'expense' ? '-' : '+' }}{{ transaction.amount | currency }}
+            </td>
+            <td class="actions">
+              <button (click)="editTransaction(transaction.id)">Edit</button>
+              <button (click)="deleteTransaction(transaction.id)">Delete</button>
+            </td>
+          </tr>
+        }
+        @empty {
+          <tr>
+            <td colspan="7" class="no-data">No transactions found</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
