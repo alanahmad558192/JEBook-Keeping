@@ -1,12 +1,52 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styles: [`
+    .navbar {
+      background-color: #f8f9fa;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .navbar-brand {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .navbar-nav {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+      margin-top: 10px;
+      padding: 0;
+    }
+
+    .navbar-nav a {
+      color: #666;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .navbar-nav a:hover {
+      color: #007bff;
+      background-color: rgba(0,123,255,0.1);
+    }
+
+    .navbar-nav a.active {
+      color: #007bff;
+      background-color: rgba(0,123,255,0.1);
+      font-weight: 500;
+    }
+  `]
 })
-export class AppComponent {
-  title = 'je-book-keeping';
-}
+export class AppComponent {}
